@@ -54,8 +54,28 @@ const generateId = () => {
     return Math.floor(Math.random() * Math.floor(100000));
 };
 
+const nameIsValid = (name) => {
+    if (name !== undefined && name !== "") {
+        const person = persons.find(person => person.name === name);
+        return person === undefined;
+    }
+    return false;
+};
+
+const numberIsValid = (number) => {
+    return number !== undefined && number !== "";
+};
+
 app.post('/api/persons', (req, res) => {
     const body = req.body;
+
+    if(!nameIsValid(body.name)) {
+        return res.status(400).json({error: "Name cannot be empty and must be unique"});
+    }
+
+    if(!numberIsValid(body.number)) {
+        return res.status(400).json({error: "Number cannot be empty"});
+    }
 
     const person = {
         name: body.name,
