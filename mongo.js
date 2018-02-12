@@ -33,18 +33,18 @@ if(newName && newNumber) {
         .save()
         .then(result => {
             console.log(`Lisätään henkilö ${result.name} numero ${result.number} luetteloon`);
-            mongoose.connection.close()
+            mongoose.connection.close();
         });
 
 } else {
     Person
         .find({})
         .then(result => {
-            console.log("Puhelinluettelo:");
+            console.log('Puhelinluettelo:');
             result.forEach(person => {
                 console.log(`${person.name} ${person.number}`);
             });
-            mongoose.connection.close()
+            mongoose.connection.close();
         });
 
 }

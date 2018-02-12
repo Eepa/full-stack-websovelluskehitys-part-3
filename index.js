@@ -9,60 +9,49 @@ app.use(express.static('build'));
 app.use(cors());
 app.use(bodyParser.json());
 
-morgan.token('body-content', function (req, res) {
+morgan.token('body-content', function (req) {
     return JSON.stringify(req.body);
 });
 app.use(morgan(':method :url :body-content :status :res[content-length] - :response-time ms'));
-
-let persons = [
-    {
-        name: "Arto Hellas",
-        number: "040-123456",
-        id: 1
-    },
-    {
-        name: "Martti Tienari",
-        number: "040-123456",
-        id: 2
-    },
-    {
-        name: "Arto Järvinen",
-        number: "040-123456",
-        id: 3
-    },
-    {
-        name: "Lea Kutvonen",
-        number: "040-123456",
-        id: 4
-    }
-];
 
 const formatPerson = (person) => {
     return {
         name: person.name,
         number: person.number,
         id: person._id
-    }
+    };
 };
 
 app.get('/api/persons', (req, res) => {
     Person
-        .find({}, {__v: 0})
+        .find({ }, { __v: 0 } )
         .then(persons => {
             res.json(persons.map(formatPerson));
         })
         .catch(error => {
             console.log(error);
-            response.status(404).end();
-        })
+            res.status(404).end();
+        });
 });
 
 app.get('/info', (req, res) => {
-    const personInformation = `Puhelinluettelossa ${persons.length} henkilön tiedot `;
-    res.send(
-        `<p>${personInformation}</p>
-        <p>${new Date()}</p>`
-    );
+
+    Person
+        .find({ }, { __v: 0 } )
+        .then(persons => {
+            const personInformation = `Puhelinluettelossa ${persons.length} henkilön tiedot `;
+
+            res.send(
+                `<p>${personInformation}</p>
+                <p>${new Date()}</p>`);
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(404).end();
+        });
+
+
+
 });
 
 app.get('/api/persons/:id', (req, res) => {
