@@ -51,6 +51,9 @@ app.get('/api/persons', (req, res) => {
         .then(persons => {
             res.json(persons.map(formatPerson));
         })
+        .catch(error => {
+            console.log(error);
+        })
 });
 
 app.get('/info', (req, res) => {
@@ -71,10 +74,6 @@ app.get('/api/persons/:id', (req, res) => {
         res.status(404).end();
     }
 });
-
-const generateId = () => {
-    return Math.floor(Math.random() * Math.floor(100000));
-};
 
 const nameIsValid = (name) => {
     if (name !== undefined && name !== "") {
@@ -99,15 +98,16 @@ app.post('/api/persons', (req, res) => {
         return res.status(400).json({error: "Number cannot be empty"});
     }
 
-    const person = {
+    const person = new Person({
         name: body.name,
-        number: body.number,
-        id: generateId()
-    };
+        number: body.number
+    });
 
-    persons = persons.concat(person);
-    res.json(person);
-
+    person
+        .save()
+        .then(savedPerson => {
+            res.json(formatPerson(savedPerson));
+        });
 });
 
 app.delete('/api/persons/:id', (req, res) => {
