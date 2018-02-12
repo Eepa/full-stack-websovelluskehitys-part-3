@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
 const secrets = require('./secrets');
 
-const MONGOUSER = process.env.MONGOPUSER || secrets.getMongoUser();
-const MONGOPASSWORD = process.env.MONGOPASSWORD || secrets.getMongoPassword();
+const MONGODB_URI = process.env.MONGODB_URI || secrets.getMongoDBUri();
 
-const url = `mongodb://${MONGOUSER}:${MONGOPASSWORD}@ds135186.mlab.com:35186/full-stack-part-3-phone-book`;
+const url = MONGODB_URI;
 
 mongoose.connect(url);
 
