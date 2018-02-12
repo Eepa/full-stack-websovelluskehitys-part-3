@@ -8,9 +8,6 @@ const url = `mongodb://${MONGOUSER}:${MONGOPASSWORD}@ds135186.mlab.com:35186/ful
 
 mongoose.connect(url);
 
-console.log(MONGOUSER);
-console.log(MONGOPASSWORD);
-
 const Person = mongoose.model('Person', {
     name: String,
     number: String,
