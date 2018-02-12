@@ -73,11 +73,12 @@ app.get('/api/persons/:id', (req, res) => {
 });
 
 const nameIsValid = (name) => {
-    if (name !== undefined && name !== "") {
-        const person = persons.find(person => person.name === name);
-        return person === undefined;
-    }
-    return false;
+    /*    if (name !== undefined && name !== "") {
+            const person = persons.find(person => person.name === name);
+            return person === undefined;
+        }
+        return false;*/
+    return name !== undefined && name !== "";
 };
 
 const numberIsValid = (number) => {
