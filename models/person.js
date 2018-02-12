@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
-const secrets = require('../secrets');
+if ( process.env.NODE_ENV !== 'production' ) {
+    require('dotenv').config();
+}
 
-const MONGODB_URI = process.env.MONGODB_URI || secrets.getMongoDBUri();
+const MONGODB_URI = process.env.MONGODB_URI;
 
 const url = MONGODB_URI;
 mongoose.connect(url);
